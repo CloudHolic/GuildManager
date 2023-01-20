@@ -5,6 +5,7 @@
              xmlns:c="clr-namespace:GuildManager.Controls"
              xmlns:cv="clr-namespace:GuildManager.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:t="clr-namespace:GuildManager.Types"
              xmlns:vm="clr-namespace:GuildManager.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="732">
