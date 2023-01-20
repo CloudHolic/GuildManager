@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace GuildManager.Views
+namespace GuildManager.Views;
+
+/// <summary>
+/// Interaction logic for BossPartyView.xaml
+/// </summary>
+public partial class BossPartyView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for BossPartyView.xaml
-    /// </summary>
-    public partial class BossPartyView : UserControl
+    public BossPartyView()
     {
-        public BossPartyView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

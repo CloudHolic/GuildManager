@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace GuildManager.Views
+namespace GuildManager.Views;
+
+/// <summary>
+/// Interaction logic for WeeklyContentsView.xaml
+/// </summary>
+public partial class WeeklyContentsView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for WeeklyContentsView.xaml
-    /// </summary>
-    public partial class WeeklyContentsView : UserControl
+    public WeeklyContentsView()
     {
-        public WeeklyContentsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
