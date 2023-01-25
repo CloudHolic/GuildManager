@@ -45,8 +45,7 @@ public class GuildMemberCrawler
         });
 
         return list.Skip(3)
-            .Select(async (x) => await ParseGuildMember(x))
-            .Select(t => t.Result)
+            .Select(ParseGuildMember)
             .ToList();
     }
 
@@ -80,7 +79,7 @@ public class GuildMemberCrawler
         return pageSource;
     }
 
-    private static async Task<int?> CrawlMurung(string nickname)
+    public static async Task<int?> CrawlMurung(string nickname)
     {
         var response = $"{BaseUrl}/u/{nickname}".GetAsync().Result;
         var doc = await response.ResponseMessage.Content.ReadAsStringAsync();
@@ -93,13 +92,12 @@ public class GuildMemberCrawler
         return rawData.Split("층")[0].ExtractInteger();
     }
 
-    private static async Task<GuildMember> ParseGuildMember(ValueTuple<string, string, string> rawData)
+    private static GuildMember ParseGuildMember(ValueTuple<string, string, string> rawData)
     {
         var (nickname, jobAndLevel, lastActivity) = rawData;
         var job = jobAndLevel.Split("/")[0];
         var level = jobAndLevel.Split("/")[1];
-        var murung = await CrawlMurung(nickname);
 
-        return new GuildMember(nickname, job, level.ExtractInteger() ?? 0, murung, lastActivity.ExtractInteger() ?? 1, Position.Member);
+        return new GuildMember(nickname, job, level.ExtractInteger() ?? 0, null, lastActivity.ExtractInteger() ?? 1, Position.Member);
     }
 }

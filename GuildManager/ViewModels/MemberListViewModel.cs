@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuildManager.Models;
@@ -24,55 +25,63 @@ public partial class MemberListViewModel : ObservableRecipient
 
     #endregion
 
+    #region public int Progress
+
+    private int _progress;
+
+    public int Progress
+    {
+        get => _progress;
+        set => SetProperty(ref _progress, value);
+    }
+
     #endregion
 
-    private BackgroundWorker SyncWorker { get; }
-    
+    #endregion
+
     public MemberListViewModel()
     {
         GuildMembers = new ObservableCollection<GuildMember>();
-        SyncWorker = new BackgroundWorker();
-        SyncWorker.DoWork += SyncWorker_DoWork;
-        SyncWorker.RunWorkerCompleted += SyncWorker_Completed;
-        SyncWorker.ProgressChanged += SyncWorker_ProgressChanged;
     }
 
     #region Commands
 
-    [RelayCommand(CanExecute = nameof(CanSync))]
-    private void Sync()
+    [RelayCommand(AllowConcurrentExecutions = false)]
+    private async Task Sync()
     {
-        SyncWorker.RunWorkerAsync();
-    }
+        var progressHandler = new Progress<int>(value =>
+        {
+            Progress = value;
+        });
 
-    private bool CanSync()
-    {
-        return !SyncWorker.IsBusy;
+        var progress = progressHandler as IProgress<int>;
+
+        var members = await Task.Run(async () =>
+        {
+            var crawler = new GuildMemberCrawler("scania", "아이엠캔들");
+            var members = await crawler.GetMembers();
+
+            var memberCount = members.Count;
+            var murungList = members.Select(async (x, i) =>
+                {
+                    var murung = await GuildMemberCrawler.CrawlMurung(x.Nickname);
+                    progress.Report(100 * (i + 1) / memberCount);
+
+                    return murung;
+                }).Select(x => x.Result).ToList();
+
+            return members.Select((x, i) =>
+            {
+                x.Murung = murungList[i];
+                return x;
+            }).ToList();
+        });
+
+        members.ForEach(GuildMembers.Add);
     }
 
     [RelayCommand]
     public void Save()
-    {
-
-    }
-
-    #endregion
-
-    #region SyncWorker Methods
-
-    private void SyncWorker_DoWork(object? sender, DoWorkEventArgs e)
-    {
-        var crawler = new GuildMemberCrawler("scania", "아이엠캔들");
-        e.Result = crawler.GetMembers().Result;
-    }
-
-    private void SyncWorker_Completed(object? sender, RunWorkerCompletedEventArgs e)
-    {
-        if (e.Result is List<GuildMember> { Count: > 0 } members)
-            members.ForEach(GuildMembers.Add);
-    }
-
-    private void SyncWorker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
     {
 
     }
