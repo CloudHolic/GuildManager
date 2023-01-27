@@ -5,20 +5,23 @@ namespace GuildManager.Types;
 public enum Position
 {
     [Description("마스터")]
-    Master,
+    Master = 1,
 
     [Description("부마스터")]
-    SubMaster,
+    SubMaster = 2,
 
     [Description("길드원")]
-    Member,
+    Member = 3,
 
     [Description("플래그 부캐")]
-    Flag,
+    Flag = 4,
 
     [Description("개인사정")]
-    Rest,
+    Rest = 5,
 
     [Description("군인")]
-    Soldier
+    Soldier = 6,
+
+    [Description("미정")]
+    Unknown = 7
 }

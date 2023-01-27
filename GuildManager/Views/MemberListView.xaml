@@ -6,7 +6,7 @@
              xmlns:cv="clr-namespace:GuildManager.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:t="clr-namespace:GuildManager.Types"
+             xmlns:m="clr-namespace:GuildManager.Models"
              xmlns:vm="clr-namespace:GuildManager.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="732">
     <UserControl.DataContext>
@@ -132,7 +132,7 @@
                             <GridViewColumnHeader Tag="닉네임"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="t:GuildMember">
+                            <DataTemplate DataType="m:GuildMember">
                                 <Grid Height="30">
                                     <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"
                                                Text="{Binding Nickname}" FontSize="15" Foreground="#404D61"/>
@@ -146,7 +146,7 @@
                             <GridViewColumnHeader Tag="직업"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="t:GuildMember">
+                            <DataTemplate DataType="m:GuildMember">
                                 <Grid Height="30">
                                     <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"
                                                Text="{Binding Job}" FontSize="15" Foreground="#404D61"/>
@@ -160,7 +160,7 @@
                             <GridViewColumnHeader Tag="레벨"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="t:GuildMember">
+                            <DataTemplate DataType="m:GuildMember">
                                 <Grid Height="30">
                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0"
                                                Text="{Binding Level, StringFormat='Lv. {0}'}" FontSize="15" Foreground="#404D61"/>
@@ -174,7 +174,7 @@
                             <GridViewColumnHeader Tag="무릉"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="t:GuildMember">
+                            <DataTemplate DataType="m:GuildMember">
                                 <Grid Height="30">
                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                                Margin="3,0,0,0" FontSize="15" Foreground="#404D61"
@@ -189,7 +189,7 @@
                             <GridViewColumnHeader Tag="마지막 활동일"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="t:GuildMember">
+                            <DataTemplate DataType="m:GuildMember">
                                 <Grid Height="30">
                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0"
                                                Text="{Binding LastActivityDay, StringFormat='\{0}일 전'}" FontSize="15" Foreground="#404D61"/>
@@ -203,7 +203,7 @@
                             <GridViewColumnHeader Tag="직위"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
-                            <DataTemplate DataType="t:GuildMember">
+                            <DataTemplate DataType="m:GuildMember">
                                 <Grid Height="30">
                                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,0"
                                                Text="{Binding Position, Converter={cv:EnumDescriptionConverter}}" 

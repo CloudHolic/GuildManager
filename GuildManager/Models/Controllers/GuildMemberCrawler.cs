@@ -9,7 +9,7 @@ using HtmlAgilityPack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace GuildManager.Models;
+namespace GuildManager.Models.Controllers;
 
 public class GuildMemberCrawler
 {
@@ -49,6 +49,19 @@ public class GuildMemberCrawler
             .ToList();
     }
 
+    public static async Task<int?> CrawlMurung(string nickname)
+    {
+        var response = $"{BaseUrl}/u/{nickname}".GetAsync().Result;
+        var doc = await response.ResponseMessage.Content.ReadAsStringAsync();
+
+        var htmlDoc = new HtmlDocument();
+        htmlDoc.LoadHtml(doc);
+
+        var rawData = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'text-center')]")[1].InnerText;
+
+        return rawData.Split("층")[0].ExtractInteger();
+    }
+
     private async Task<string> CrawlHtml()
     {
         string pageSource;
@@ -77,19 +90,6 @@ public class GuildMemberCrawler
         }
 
         return pageSource;
-    }
-
-    public static async Task<int?> CrawlMurung(string nickname)
-    {
-        var response = $"{BaseUrl}/u/{nickname}".GetAsync().Result;
-        var doc = await response.ResponseMessage.Content.ReadAsStringAsync();
-
-        var htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(doc);
-
-        var rawData = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'text-center')]")[1].InnerText;
-
-        return rawData.Split("층")[0].ExtractInteger();
     }
 
     private static GuildMember ParseGuildMember(ValueTuple<string, string, string> rawData)

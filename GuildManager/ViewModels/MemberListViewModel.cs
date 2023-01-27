@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GuildManager.Models;
-using GuildManager.Types;
+using GuildManager.Models.Controllers;
+using GuildManager.Models.Providers;
+using GuildManager.Utils;
 
 namespace GuildManager.ViewModels;
 
@@ -41,7 +45,8 @@ public partial class MemberListViewModel : ObservableRecipient
 
     public MemberListViewModel()
     {
-        GuildMembers = new ObservableCollection<GuildMember>();
+        var repo = new GuildMemberRepository();
+        GuildMembers = repo.GetGuildMembers(new List<(string, string)>()).ToObservableCollection();
     }
 
     #region Commands
@@ -83,7 +88,10 @@ public partial class MemberListViewModel : ObservableRecipient
     [RelayCommand]
     public void Save()
     {
+        var repo = new GuildMemberRepository();
+        repo.UpsertGuildMembers(GuildMembers.ToList());
 
+        MessageBox.Show("길드원 목록 저장 완료", "GuildManager", MessageBoxButton.OK);
     }
 
     #endregion
