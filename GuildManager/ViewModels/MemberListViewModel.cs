@@ -82,7 +82,21 @@ public partial class MemberListViewModel : ObservableRecipient
             }).ToList();
         });
 
-        members.ForEach(GuildMembers.Add);
+        members.ForEach(x =>
+        {
+            var member = GuildMembers.FirstOrDefault(g => g.Nickname == x.Nickname);
+            if (member != null)
+            {
+                member.Level = x.Level;
+                member.Job = x.Job;
+                member.Murung = x.Murung;
+                member.LastActivityDay = x.LastActivityDay;
+            }
+            else
+                GuildMembers.Add(x);
+        });
+
+        MessageBox.Show("길드원 목록 갱신 완료", "GuildManager", MessageBoxButton.OK);
     }
 
     [RelayCommand]

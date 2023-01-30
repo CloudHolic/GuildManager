@@ -28,10 +28,12 @@ public static class EnumExtensions
             ? description.Description
             : value.ToString();
 
-    public static IEnumerable<ValueDescription> GetValuesAndDescriptions(Type type, Func<Enum, bool> filter)
+    public static IEnumerable<ValueDescription> GetValuesAndDescriptions(Type? type, Func<Enum, bool>? filter = null)
     {
         if (type is not { IsEnum: true })
             return new List<ValueDescription>();
+
+        filter ??= _ => true;
 
         return Enum.GetValues(type).Cast<Enum>()
             .Where(filter)
