@@ -10,5 +10,5 @@ public interface IGuildMemberRepository
 
     List<int> UpdateGuildMembers(List<GuildMember> guildMembers);
 
-    List<int> DeleteGuildMembers(List<GuildMember> guildMembers);
+    List<int> DeleteGuildMembers(List<string> nicknames);
 }

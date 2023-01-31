@@ -198,14 +198,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="120" c:GridColumn.MinWidth="120" c:GridColumn.MaxWidth="120">
+                    <GridViewColumn Width="130" c:GridColumn.MinWidth="130" c:GridColumn.MaxWidth="130">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Tag="직위"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate DataType="m:GuildMember">
-                                <ComboBox Style="{StaticResource FlatComboBoxStyle}" Margin="3,0,0,0" BorderThickness="0"
-                                          HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"
+                                <ComboBox Style="{StaticResource FlatComboBoxStyle}" Margin="0,0,0,0" BorderThickness="0"
+                                          HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Width="130"
                                           ItemsSource="{Binding Position, Converter={cv:EnumToCollectionConverter}, Mode=OneTime}" 
                                           SelectedValue="{Binding Position, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                           DisplayMemberPath="Description" SelectedValuePath="Value"/>

@@ -43,10 +43,13 @@ public partial class MemberListViewModel : ObservableRecipient
 
     #endregion
 
+    private List<string> Nicknames { get; set; }
+
     public MemberListViewModel()
     {
         var repo = new GuildMemberRepository();
         GuildMembers = repo.GetGuildMembers(new List<(string, string)>()).ToObservableCollection();
+        Nicknames = GuildMembers.Select(x => x.Nickname).ToList();
     }
 
     #region Commands
@@ -54,10 +57,7 @@ public partial class MemberListViewModel : ObservableRecipient
     [RelayCommand(AllowConcurrentExecutions = false)]
     private async Task Sync()
     {
-        var progressHandler = new Progress<int>(value =>
-        {
-            Progress = value;
-        });
+        var progressHandler = new Progress<int>(value => Progress = value);
 
         var progress = progressHandler as IProgress<int>;
 
@@ -82,6 +82,9 @@ public partial class MemberListViewModel : ObservableRecipient
             }).ToList();
         });
 
+        var nicknames = members.Select(x => x.Nickname).ToList();
+        GuildMembers.RemoveAll(x => !nicknames.Contains(x.Nickname));
+
         members.ForEach(x =>
         {
             var member = GuildMembers.FirstOrDefault(g => g.Nickname == x.Nickname);
@@ -102,8 +105,14 @@ public partial class MemberListViewModel : ObservableRecipient
     [RelayCommand]
     public void Save()
     {
+        var currentNicknames = GuildMembers.Select(x => x.Nickname).ToList();
+        var deletedNicknames = Nicknames.Where(x => !currentNicknames.Contains(x)).ToList();
+
         var repo = new GuildMemberRepository();
+        repo.DeleteGuildMembers(deletedNicknames);
         repo.UpsertGuildMembers(GuildMembers.ToList());
+
+        Nicknames = currentNicknames;
 
         MessageBox.Show("길드원 목록 저장 완료", "GuildManager", MessageBoxButton.OK);
     }

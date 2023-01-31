@@ -18,10 +18,12 @@ public class GuildMemberRepository : SqliteBaseRepository, IGuildMemberRepositor
             "Murung INT, LastActivity INT, Position INT);");
     }
 
-    public List<GuildMember> GetGuildMembers(List<(string, string)> queryList)
+    public List<GuildMember> GetGuildMembers(List<(string, string)>? queryList = null)
     {
         var query = $"SELECT * FROM {TableName}";
         var dp = new DynamicParameters();
+
+        queryList ??= new List<(string, string)>();
         
         var param = string.Join(" AND ", queryList.Select(x => $"{x.Item1} = @{x.Item1}"));
         if (!string.IsNullOrEmpty(param))
@@ -70,11 +72,11 @@ public class GuildMemberRepository : SqliteBaseRepository, IGuildMemberRepositor
             .ToList();
     }
 
-    public List<int> DeleteGuildMembers(List<GuildMember> guildMembers)
+    public List<int> DeleteGuildMembers(List<string> nicknames)
     {
-        return guildMembers.Select(x => ExecuteQuery(
-            $"DELETE FROM {TableName} WHERE Id = @Id",
-            new { x.Id }))
+        return nicknames.Select(x => ExecuteQuery(
+            $"DELETE FROM {TableName} WHERE Nickname = @Nickname",
+            new { Nickname = x }))
             .ToList();
     }
 }

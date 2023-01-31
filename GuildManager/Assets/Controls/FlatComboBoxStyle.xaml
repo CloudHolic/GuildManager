@@ -84,7 +84,7 @@
                                       Template="{StaticResource FlatComboToggleButton}"
                                       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <ContentPresenter x:Name="ContentSite" IsHitTestVisible="True" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                          Margin="13,3,23,3"
+                                          Margin="13,3,23,3" Width="{TemplateBinding Width}"
                                           Content="{TemplateBinding SelectionBoxItem}"
                                           ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                           ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>

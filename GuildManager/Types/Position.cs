@@ -22,6 +22,9 @@ public enum Position
     [Description("군인")]
     Soldier = 6,
 
+    [Description("학업")]
+    Study = 7,
+
     [Description("미정")]
-    Unknown = 7
+    Unknown = 8
 }
